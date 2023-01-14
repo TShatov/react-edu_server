@@ -1,22 +1,23 @@
-import React, { Component } from "react";
+require('@babel/register');
 
-import ReactDOM from "react-dom";
+const express = require('express');
+const render = require('./render').default;
+const app = express();
 
-import { Catalog } from "./src/Catalog";
+app.get('/', (req, res) => {
+  const response = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>React App</title>
+      </head>
+      <body>
+        <div id="root">${render()}</div>
+      </body>
+    </html>
+  `;
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+  res.send(response);
+});
 
-  render() {
-    return (
-      <Catalog />
-    )
-  }
-}
-
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-)
+app.listen(3001, () => console.log('Server is listening'));
